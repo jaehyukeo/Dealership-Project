@@ -1,0 +1,8 @@
+[
+  {
+    "name": "Dealership_Project",
+    "contactPoints": ["127.0.0.1"],
+    "port": 9042,
+    "localDataCenter": "datacenter1"
+  }
+]

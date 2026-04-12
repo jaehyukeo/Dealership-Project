@@ -1,0 +1,1 @@
+{"id":"PqujgIRn4AXNlkSa","clusterName":"Dealership_Project","keyspace":"dealership_system","body":"SELECT * FROM dealership_system.car;","modified":true,"filename":"script_1.cql","source":"action"}
