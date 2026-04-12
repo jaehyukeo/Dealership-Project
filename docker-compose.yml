@@ -1,0 +1,9 @@
+services:
+  cassandra-db:
+    image: cassandra:latest
+    container_name: dealership_db
+    ports:
+      - "9042:9042"
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
+    restart: always

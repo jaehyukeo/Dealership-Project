@@ -1,0 +1,17 @@
+# Docker data (IMPORTANT: prevents DB crashes on other laptops)
+data/
+*.log
+
+# Windows system files
+Thumbs.db
+desktop.ini
+
+# IDE specific (Eclipse/VS Code)
+.settings/
+.classpath
+.project
+bin/
+.vscode/
+
+# OS specific
+.DS_Store
