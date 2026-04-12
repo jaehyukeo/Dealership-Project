@@ -1,3 +1,4 @@
+#this is for the container
 services:
   cassandra-db:
     image: cassandra:latest
