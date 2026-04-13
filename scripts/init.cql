@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS invoice (
     total_amount decimal,
     sp_name varchar,
     customer_name varchar,
-    car_model varchar
+    car_model varchar,
+    payment_method varchar
 );
 
 -- Service Ticket
