@@ -3,27 +3,26 @@ WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
 
 USE dealership_system;
 
--- Inventory Table
+-- 1. Car Table (Handles Rule: New/Used/Service history reference)
 CREATE TABLE IF NOT EXISTS car (
-    vin varchar PRIMARY KEY,
+    vin varchar PRIMARY KEY, -- 'Serial Number' in your problem
     brand varchar,
     model varchar,
     year int,
     type varchar,
     price decimal, 
-    status varchar
+    status varchar -- 'New', 'Used', 'Service Only'
 );
 
--- Customer Table
+-- 2. Customer Table (Handles Rule: Can exist without buying a car)
 CREATE TABLE IF NOT EXISTS customer (
     customer_id int PRIMARY KEY,
     customer_name varchar,
     address varchar,
-    phone varchar,
-    email varchar
+    phone varchar
 );
 
--- Salesperson Table
+-- 3. Salesperson Table
 CREATE TABLE IF NOT EXISTS salesperson (
     salesperson_id int PRIMARY KEY,
     sp_name varchar,
@@ -31,7 +30,7 @@ CREATE TABLE IF NOT EXISTS salesperson (
     branch varchar
 );
 
--- Invoice Table
+-- 4. Invoice Table (Handles Rule: 1 invoice per car/customer/salesperson)
 CREATE TABLE IF NOT EXISTS invoice (
     invoice_number int PRIMARY KEY,
     invoice_date timestamp,
@@ -40,40 +39,30 @@ CREATE TABLE IF NOT EXISTS invoice (
     sp_name varchar,
     customer_id int,
     customer_name varchar,
-    car_model varchar,
+    vin varchar,
     payment_method varchar
 );
 
--- Service Ticket
+-- 5. Service Ticket (OPTIMIZED for Service History)
+-- We use (vin, ticket_id) as a Composite Key so history is grouped by Car!
 CREATE TABLE IF NOT EXISTS service_ticket (
-    ticket_id int PRIMARY KEY,
     vin varchar,
+    ticket_id int,
     customer_id int,
     customer_name varchar,
-    mechanic_id int,
+    mechanic_id int, -- Primary mechanic
     mechanic_name varchar,
     service_date timestamp,
     labor_cost decimal,
-    parts_list list<varchar>,
+    parts_list list<varchar>, -- Handles Rule: May or may not need parts
     parts_cost decimal,
-    total_cost decimal
-);
+    total_cost decimal,
+    PRIMARY KEY (vin, ticket_id) 
+) WITH CLUSTERING ORDER BY (ticket_id DESC);
 
--- Mechanic Table 
+-- 6. Mechanic Table
 CREATE TABLE IF NOT EXISTS mechanic (
     mechanic_id int PRIMARY KEY,
     mechanic_name varchar,
     specialization varchar
 );
-
-INSERT INTO car (vin, brand, model, year, type, price, status) 
-VALUES ('VIN12345', 'Toyota', 'Vios', 2024, 'Sedan', 850000, 'Available');
-
-INSERT INTO salesperson (salesperson_id, sp_name, position, branch) 
-VALUES (1, 'Marian Obejas', 'Senior Dealer', 'Taguig');
-
-INSERT INTO customer (customer_id, customer_name, address, phone, email)
-VALUES (10001, 'Angelica Ballesteros', 'Upper Bicutan, Taguig', '0992724369', 'angelballesteros1228@gmail.com');
-
-INSERT INTO mechanic (mechanic_id, mechanic_name, specialization)
-VALUES (83212, 'Mark Rosario', 'Auto Diagnostic Technician');
