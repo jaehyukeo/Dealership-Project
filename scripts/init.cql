@@ -36,7 +36,9 @@ CREATE TABLE IF NOT EXISTS invoice (
     invoice_number int PRIMARY KEY,
     invoice_date timestamp,
     total_amount decimal,
+    salesperson_id int,
     sp_name varchar,
+    customer_id int,
     customer_name varchar,
     car_model varchar,
     payment_method varchar
@@ -46,7 +48,9 @@ CREATE TABLE IF NOT EXISTS invoice (
 CREATE TABLE IF NOT EXISTS service_ticket (
     ticket_id int PRIMARY KEY,
     vin varchar,
+    customer_id int,
     customer_name varchar,
+    mechanic_id int,
     mechanic_name varchar,
     service_date timestamp,
     labor_cost decimal,
