@@ -22,17 +22,20 @@ CREATE TABLE IF NOT EXISTS customer (
 CREATE TABLE IF NOT EXISTS car (
     vin varchar PRIMARY KEY, 
     price decimal, 
+    model varchar, -- Car Description
+    year int, -- for history
+    type varchar, -- If Available or Sold
     status varchar -- New or Used
 );
 
 -- 4. Invoice Table
 CREATE TABLE IF NOT EXISTS invoice (
     invoice_id int PRIMARY KEY,
-    invoice_date timestamp,
-    total_amount decimal,
     salesperson_id int,
     customer_id int,
-    vin varchar
+    vin varchar,
+    invoice_date timestamp,
+    total_amount decimal
 );
 
 -- 5. Service Ticket 
@@ -45,7 +48,14 @@ CREATE TABLE IF NOT EXISTS service_ticket (
     PRIMARY KEY (vin, ticket_id) 
 ) WITH CLUSTERING ORDER BY (ticket_id DESC);
 
--- 5.A. ServiceTicket for Labor
+-- 6. Mechanic Table
+CREATE TABLE IF NOT EXISTS mechanic (
+    mechanic_id int PRIMARY KEY,
+    mechanic_name varchar,
+    specialization varchar
+);
+
+-- 7. ServiceTicket for Labor
 CREATE TABLE IF NOT EXISTS service_ticket_labor (
     ticket_id varchar,
     service_id int,
@@ -55,16 +65,16 @@ CREATE TABLE IF NOT EXISTS service_ticket_labor (
     PRIMARY KEY (ticket_id, service_id)
 );
 
--- 6. Mechanic Table
-CREATE TABLE IF NOT EXISTS mechanic (
-    mechanic_id int PRIMARY KEY,
-    mechanic_name varchar,
-    specialization varchar
+-- 8. Part Master Table (Source for Inventory/Dropdown)
+CREATE TABLE IF NOT EXISTS part (
+    part_id int PRIMARY KEY,
+    description varchar,
+    unit_price decimal
 );
 
---5.B. ServiceTicket for Parts
+-- 9. ServiceTicket for Parts
 CREATE TABLE IF NOT EXISTS service_ticket_parts (
-    ticket_id varchar,
+   ticket_id varchar,
     part_id int,
     part_name varchar,
     quantity int,
