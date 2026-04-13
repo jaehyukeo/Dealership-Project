@@ -44,6 +44,8 @@ CREATE TABLE IF NOT EXISTS service_ticket (
     ticket_id varchar, 
     customer_id int,
     service_date timestamp,
+    problem_description varchar,
+    service_status varchar,
     total_amount decimal,
     PRIMARY KEY (vin, ticket_id) 
 ) WITH CLUSTERING ORDER BY (ticket_id DESC);
@@ -78,6 +80,6 @@ CREATE TABLE IF NOT EXISTS service_ticket_parts (
     part_id int,
     part_name varchar,
     quantity int,
-    unit_price decimal,
+    sold_price decimal,
     PRIMARY KEY (ticket_id, part_id)
 );
