@@ -121,7 +121,7 @@ public class CarDealership {
         System.out.println("Invoice #" + invNumber + " created. Branch, Dealer, and Customer records synchronized.");
     }
 
-    public static void createServiceTicket(CqlSession session, int ticketId, String vin, String custName, int mechId, String mechName, String mechSpec, BigDecimal laborCost, String partsList, BigDecimal partsCost) {
+    public static void createServiceTicket(CqlSession session, String ticketId, String vin, String custName, int mechId, String mechName, String mechSpec, BigDecimal laborCost, String partsList, BigDecimal partsCost) {
     	
         if (!carExists(session, vin)) {
             System.out.println("Error: VIN " + vin + " not found.");
@@ -162,8 +162,8 @@ public class CarDealership {
         }
 
         String query = String.format(
-            "INSERT INTO service_ticket (vin, ticket_id, customer_name, mechanic_name, service_date, labor_cost, parts_list, parts_cost, total_cost) " +
-            "VALUES ('%s', '%d', '%s', '%s', %d, %s, %s, %s, %s);", 
+            "INSERT INTO service_ticket (ticket_id, vin, customer_name, mechanic_name, service_date, labor_cost, parts_list, parts_cost, total_cost) " +
+            "VALUES ('%s', '%s', '%s', '%s', %d, %s, %s, %s, %s);", 
             ticketId, vin, custName, mechName, timestamp, laborCost.toString(), formattedParts, partsCost.toString(), totalCost.toString()
         );
         session.execute(query);
@@ -318,7 +318,7 @@ public class CarDealership {
 
                 case 6:
                     System.out.println("\n--- NEW SERVICE TICKET ---");
-                    System.out.print("Ticket Number: "); int tId = scanner.nextInt(); scanner.nextLine();
+                    System.out.print("Ticket Number: "); String tId = scanner.nextLine();
                     System.out.print("Car VIN: "); String srvVin = scanner.nextLine();
                     System.out.print("Customer Name: "); String sCustName = scanner.nextLine();
                     
