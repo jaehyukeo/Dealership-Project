@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS car (
     price decimal, 
     model varchar, -- Car Description
     year int, -- for history
-    type varchar, -- If Available or Sold
-    status varchar -- New or Used
+    type varchar, -- New or Used
+    status varchar -- If Available or Sold
 );
 
 -- 4. Invoice Table
